@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<openerp>
+    <data>
+			<record id="point_of_sale_webkit_header" model="ir.header_webkit">
+            <field name="footer_html"><![CDATA[]]></field>
+            <field name="orientation">Portrait</field>
+            <field name="format">A4</field>
+            <field name="html"><![CDATA[
+			<html>
+			   <head>
+			       <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			       <script>
+			           function subst() {
+			           var vars={};
+			           var x=document.location.search.substring(1).split('&');
+			           for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			           var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			           for(var i in x) {
+			           var y = document.getElementsByClassName(x[i]);
+			           for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			               }
+			           }
+			       </script>
+			       <style type="text/css">
+			       
+			           ${css}
+			       </style> 
+			   </head>
+			   <body style="border:0; margin: 0;" onload="subst()">
+			       <table class="header" style="border-bottom: 1px solid black; width: 100%">
+			           <tr >
+			               <td style="text-align:left;font-size:12;" width="17%">${time.strftime('%m/%d/%Y %I:%M')}</td>
+			               <td style="text-align:center;font-size:16;" width="76%"><b>${company.partner_id.name |entity}</b></td>
+			               <td style="text-align:left;font-size:12;" width="3%"><span class="page"/>  </td>
+			               <td style="text-align:left;font-size:12;" width="1%"> /</td>
+			               <td style="text-align:right;font-size:12;" width="3%"><span class="topage"/></td>
+			           </tr>
+			       </table> ${_debug or ''|n} </body>
+			</html>]]>
+			            </field>
+			            <field eval="15.0" name="margin_top"/>
+			            <field eval="5.0" name="margin_bottom"/>
+			            <field name="css"><![CDATA[
+			
+			body, table, td, span, div {
+			    font-family:Verdana;
+			}
+			
+			body {
+			font-family:Arial;
+			font-size:12;
+		
+			}
+			
+			
+			.header {
+				margin-left:0;
+				text-align:left;
+				width:300px;
+			    font-size:12;
+			}
+			.title {
+			font-size:16;
+			font-weight: bold;
+			
+			}
+			
+			
+			.basic_table{
+			text-align:center;
+			width:100%;
+			border:1px solid lightGrey;
+			border-collapse: collapse;
+			padding-top:30px; 
+			}
+			.basic_table td {
+			border:1px solid lightGrey;
+			font-size:11px;
+			padding-top:3px;
+			padding-left:3px;
+			padding-bottom:3px;
+			padding-right:3px;
+			}
+			
+			.list_table {
+			border-color:black;
+			width:100%;
+			text-align:left;
+			border-collapse: collapse;
+			padding-top:30px;
+			
+			}
+			.list_table td {
+			border-color:gray;
+			border-top:1px solid lightGrey;
+			font-size:11px;
+			padding-left:3px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			}
+			
+			.list_table th {
+			border-bottom:1px solid black;
+			font-size:11px;
+			font-weight:bold;
+			padding-left:3px;
+			padding-right:3px;
+			}
+			
+			.list_tabe thead {
+			    display:table-header-group;
+			}
+			
+			
+			.total {
+			width:100%;
+			}
+			.lib {
+			width:10.3%;
+			}
+			.tot {
+			text-align:left;
+			width:15%;
+			}
+			.righttot {
+			width:74%;
+			}
+			.tax {
+			width:50%;
+			} 
+			
+			.cell{
+			    border-spacing: 0;
+			    border-collapse: collapse;
+			    border-style:solid;
+			    border: 1px solid grey;
+			    font-size:10px;
+			    text-align:center;
+			}
+			
+			.tbl_header{
+			    width:100%;
+			    font-size:10px;
+			}
+			.tr_bottom_line{
+			    border-bottom: thin solid black;
+			    width:100%;
+			}
+			.tr_bottom_line_dark_grey{
+			    border-bottom: thin solid grey;
+			    width:100%;
+			}
+			.tr_bottom_line_light_grey{
+			    border-bottom: thin solid #CCCCCC;
+			    width:100%;
+			}
+			.td_f12{
+			    font-size:12px;
+			}
+			.td_f10{
+			    font-size:10px;
+			}
+			.td_f10_right{
+			    font-size:10px;
+			    text-align:right;
+			}
+			.td_f12{
+			    font-size:12px;
+			}
+			.td_f12_right{
+			    font-size:12px;
+			    text-align:right;
+			}
+			table.head_border_style{
+					    	border:1px solid; 
+					    	color: #cccccc;
+			}
+			tr.head_border_style{
+			   	border:1px solid; 
+			   	color: #cccccc;
+			}
+			tr.table_header{
+				font-weight: bold;
+				font-family: sans-serif, serif;
+				font-size: 14px;
+				caption-side: top;
+				padding: 5px;
+			}
+			tr.table_parent_data{
+				font-family: Helvetica-Bold;
+				font-size: 12px;
+				caption-side: top;
+				font-weight: bold;
+			}
+			tr.table_child_data{
+				font-family: Helvetica;
+				font-size: 12px;
+				caption-side: top;
+			}
+			tr.report_header{
+				font-size: 30px;
+				caption-side: top;
+				font-family: Helvetica-Bold
+				padding: 5px;
+				border-bottom: 15px solid black;
+				align: center
+			}
+			
+			.top{
+				    border-top:1px solid black;
+				    font-size:11px;
+			}
+			.bottom {
+				    border-bottom:thin solid;
+				    border-color:#cccccc;
+			}
+			.head_bottom_border{
+				    border-bottom:thin solid;
+				    border-color:black;
+			}
+			.left {
+			    border-left:thin solid;
+			    border-color:#cccccc;
+			}
+			.right {
+			    border-right:thin solid;
+			    border-color:#cccccc;account_wbkit
+			}
+						
+			]]>
+            </field>
+            <field name="name">Point Of Sale Webkit Header</field>
+        </record>
+        <record id="invoice_webkit_header" model="ir.header_webkit">
+			<field name="footer_html"><![CDATA[
+			<html>
+			    <head>
+			        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			        <script>
+			            function subst() {
+			            var vars={};
+			            var x=document.location.search.substring(1).split('&');
+			            for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			            var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			            for(var i in x) {
+			            var y = document.getElementsByClassName(x[i]);
+			            for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			                }
+			            }
+			        </script>
+			    </head>
+			    <% import datetime %>
+			    <body style="border:0; margin: 0;" onload="subst()"> 
+			        <table style="border-top: 1px solid black; width: 1080px">
+			            <tr style="border-collapse:collapse;"> 
+			                <td style="text-align:left;font-size:15px;width:350px;">${formatLang( str(datetime.datetime.today()), date_time=True)}</td>
+			                <td style="text-align:center;font-size:15px;width:350px;">${user.name or ''}</td>
+			                <td style="text-align:right;font-size:15px;width:350px;">Page&nbsp;<span class="page"/></td>
+			                <td style="text-align:left;font-size:15px;width:30px">&nbsp;of&nbsp;<span class="topage"/></td>
+			            </tr>
+			        </table>
+			    </body>
+			</html>]]></field>
+			            <field name="orientation">Portrait</field>
+			            <field name="format">A4</field>
+			            <field name="html"><![CDATA[
+			<html>
+			    <head>
+			        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			        <script>
+			            function subst() {
+			            var vars={};
+			            var x=document.location.search.substring(1).split('&');
+			            for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			            var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			            for(var i in x) {
+			            var y = document.getElementsByClassName(x[i]);
+			            for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			                }
+			            }
+			        </script>
+			        <style type="text/css">
+			            ${css}
+			        </style>
+			    </head>
+			    <body style="border:0; margin: 15;" onload="subst()">
+			           <table class="header" style="border-bottom: 1px solid black; width: 100%">
+						           <tr >
+						               <td style="text-align:left;font-size:12;" width="20%">${ helper.embed_image('png',company.logo,200,50)|n }</td>
+						               <td style="text-align:right;font-size:12;" width="80%"></br></br>${ company.rml_header1 }</td>
+						           </tr>
+						       </table> ${_debug or ''|n} </body>
+						       <p style="text-align:left;font-size:12;">${company.name}</p></br></br> 
+						       <table width="100%">
+			        	<tr>
+			        	 	<td style="text-align:left;font-size:10;" width="25%">
+			            			Phone: ${company.phone or ''}
+			        	 	</td>  
+							<td width="75%"></td>      	
+			        	</tr>
+			        	
+			        	<tr>
+			        		<td style="text-align:left;font-size:10; border-bottom: 1px solid black;" width="25%">
+			        	 	    Mail: ${company.email}  
+			        		</td>
+			        		<td width="75%"></td> 	
+			        	</tr>      
+			       </table>  ${_debug or ''|n} </body>
+			</html>]]>
+			            </field>
+			            <field eval="45.0" name="margin_top"/>
+			            <field eval="15.0" name="margin_bottom"/>
+			            <field name="css"><![CDATA[
+			
+			body {
+			font-family:Verdana;
+			font-size:12;
+			
+			}
+			
+			
+			.dest_address {
+			margin-right:60%;
+			font-size:12;
+			}
+			.header {
+			margin-right:0;
+			text-align:right;
+			width:300px;
+			font-size:12px;
+			}
+			
+			.title {
+			font-size:11px;
+			text-align:left;
+			            
+			}
+			font {
+			            
+			            }
+			
+			.basic_table{
+			text-align:center;
+			width:100%;
+			border:1px solid lightGrey;
+			border-collapse: collapse;
+			
+			}
+			.basic_table td {
+			border:1px solid lightGrey;
+			font-size:10px;
+			padding-left:3px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			
+			}
+			
+			.list_table {
+			width:100%;
+			border-color:black;
+			text-align:left;
+			border-collapse: collapse;
+			
+			}
+			.list_table td {
+			border-color:gray;
+			border-top:1px solid lightGrey;
+			text-align:left;
+			font-size:11px;
+			padding-left:5px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			}
+			
+			.list_table th {
+			border-bottom:1px solid black;
+			text-align:left;
+			font-size:11px;
+			padding-left:5px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			}
+			
+			.list_tabe thead {
+			    display:table-header-group;
+			}
+			
+			
+			.total {
+			width:100%;
+			}
+			.lib {
+			width:10.3%;
+			}
+			.tot {
+			text-align:left;
+			width:15%;
+			}
+			.righttot {
+			width:74%;
+			}
+			.tax {
+			width:50%;
+			} 
+			table {
+			              display: table;
+			              width: 100%;
+			            }
+			            
+			            table thead {
+			              display: table-header-group;
+			            }
+			            
+			            table tbody {
+			              display: table-row-group;
+			            }
+			            
+			            table tfoot {
+			              display: table-footer-group;
+			            }
+			            
+			            table tr {
+			              display: table-row;
+			              height: auto;
+			            }
+			            
+			            table th,
+			            table td {
+			              display: table-cell;
+			              overflow: visible;
+			            }
+			            
+			            table th,
+			            table td {
+			              height: 1px; /* Do the trick to make div.nobrk fill td height */
+			            }
+			            
+			            table tr.singlecell td,
+			            table tr.singlecell th {
+			              height: auto; /* Reset trick for a full row td */
+			            }
+			            
+			            .nobrk {
+			              page-break-inside: avoid;
+			              orphans: 10;
+			              widows: 10;
+			              position: relative;
+			              margin: -1px 0 0 -1px;
+			              min-height: 14px;
+			              line-height: 14px;
+			              height: 100%;
+			            }
+			            
+			            table tbody td .nobrk {
+			              min-height: 5px;
+			            }
+			]]>
+            </field>
+            <field name="name">invoice Webkit Header</field>
+        </record>
+        
+
+  		<record id="receipt_webkit_header" model="ir.header_webkit">
+			<field name="footer_html"><![CDATA[
+			]]></field>
+			<field name="orientation">Portrait</field>
+			<field name="format">A4</field>
+			<field name="html"><![CDATA[
+			]]></field>
+			<field eval="20.0" name="margin_top"/>
+			<field eval="0.0" name="margin_bottom"/>
+			<field eval="0.0" name="margin_right"/>
+			<field eval="0.0" name="margin_left"/>
+			<field name="css"><![CDATA[
+			
+			body {
+			font-family:Verdana;
+			font-size:12;
+			   }         
+			.font {
+			width:100%;
+			font-family:Helvetica;
+			font-size:40px;
+			rightIndent:0.0;
+			leftIndent:0.0;
+			leading:11;
+			text-align:center;
+			            }
+			 .list{
+			width:100%;
+			border-color:black;
+			text-align:left;
+			border-collapse: collapse;   
+			            }
+			.list th{
+			border-bottom:1px solid black;
+			font-size:30px;
+			padding-left:5px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			            
+			            }
+			.list td {
+			 text-align:left;
+			font-size:30px;
+			padding-left:5px;
+			padding-right:5px;
+			padding-top:3px;
+			padding-bottom:5px; 
+			            }
+			 .list_table {
+			width:100%;
+			border-color:black;
+			text-align:left;
+			border-collapse: collapse;
+			
+			}
+			.list_table td {
+			border-color:gray;
+			border-bottom:1px solid lightGrey;
+			text-align:left;
+			font-size:30px;
+			padding-left:5px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			}
+			
+			.list_table th {
+			border-bottom:1px solid black;
+			font-family:Courier-Bold;
+			font-size:30px;
+			padding-left:5px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			}
+			           
+			
+			
+			]]>
+            </field>
+            <field name="name">receipt Webkit Header</field>
+        </record>
+        
+		<report
+            id="pos_receipt_report"
+            string="Pos Receipt"
+            model="pos.order"
+            name="pos.receipt.webkit"
+            auto="False"
+            multi="True"
+			menu="False"
+            file="point_of_sale_webkit/report/pos_receipt.mako"
+            report_type="webkit"
+        	webkit_header="receipt_webkit_header" 
+        />
+ 
+        <report
+            id="pos_invoice_report"
+            string="Invoice"
+            model="pos.order" 
+            name="pos.invoice.webkit"
+            auto="False"
+            multi="True"
+            file="point_of_sale_webkit/report/pos_invoice.mako"
+        	report_type="webkit"
+        	webkit_header="invoice_webkit_header"  
+             />
+
+        <report  
+            id="pos_lines_detail"
+            string="Details of Sales"
+            model="pos.order"
+            name="pos.details.webkit"
+            auto="False"
+            multi="True"
+            menu="False"
+            file="point_of_sale_webkit/report/pos_details.mako"
+        	report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header"  
+             />
+
+        <report  
+            id="pos_details_summary"
+            string="Sales (summary)"
+            model="pos.order"
+            name="pos.details.summary.webkit"
+            auto="False"
+            multi="True"
+            file="point_of_sale_webkit/report/pos_detail_summary.mako"
+        	report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header" 
+             />
+
+        <report
+            id="pos_lines_report"
+            string="Pos Lines"
+            model="pos.order"
+            name="pos.lines.webkit"
+            auto="False"
+            multi="True"
+            file="point_of_sale_webkit/report/pos_lines.mako"
+            report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header" 
+        />
+
+        <report
+            id="pos_sales_user"
+            string="Sales Report"
+            model="pos.order"
+            name="pos.sales.user.webkit"
+            auto="False"
+            multi="True"
+            menu="False"
+            file="point_of_sale_webkit/report/pos_sales_user.mako" 
+            report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header"  
+        />
+
+        <report
+            id="pos_sales_user_today"
+            string="Today's Sales"
+            model="pos.order"
+            name="pos.sales.user.today.webkit"
+            auto="False"
+            multi="True"
+            menu="False"
+            file="point_of_sale_webkit/report/pos_sales_user_today.mako"
+        	report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header"
+             />
+
+        <report 
+            id="pos_payment_report_user"
+            string="Today's Payment By User"
+            model="pos.order"
+            name="pos.payment.report.user.webkit"
+            auto="False"
+            multi="True"
+            menu="False"
+            file="point_of_sale_webkit/report/pos_payment_report_user.mako"
+        	report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header" 
+             />
+
+		<report 
+            id="pos_payment_report1"
+            string="Payment For Sale"
+            model="pos.order"
+            name="pos.payment.report.webkit"
+            auto="False"
+            multi="True"
+            menu="False"
+            file="point_of_sale_webkit/report/pos_payment_report.mako"
+			report_type="webkit"
+        	webkit_header="point_of_sale_webkit_header" 
+             />
+        
+
+    </data>
+</openerp>

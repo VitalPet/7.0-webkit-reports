@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<openerp>
+    <data>
+		       <record id="account_statement_webkit_header" model="ir.header_webkit">
+            <field name="footer_html"><![CDATA[]]></field>
+            <field name="orientation">Portrait</field>
+            <field name="format">A4</field>
+            <field name="html"><![CDATA[
+			<html>
+			   <head>
+			       <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			       <script>
+			           function subst() {
+			           var vars={};
+			           var x=document.location.search.substring(1).split('&');
+			           for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			           var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			           for(var i in x) {
+			           var y = document.getElementsByClassName(x[i]);
+			           for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			               }
+			           }
+			       </script>
+			       <style type="text/css">
+			       
+			           ${css}
+			       </style>
+			   </head> 
+			   <body style="border:0; margin: 0;" onload="subst()">
+			       <table class="header" style="border-bottom: 1px solid black; width: 100%">
+			           <tr >
+			               <td style="text-align:left;font-size:12;" width="17%">${time.strftime('%m/%d/%Y %I:%M')}</td>
+			               <td style="text-align:center;font-size:16;" width="76%"><b>${company.partner_id.name |entity}<b></td>
+			               <td style="text-align:left;font-size:12;" width="3%"><span class="page"/>  </td>
+			               <td style="text-align:left;font-size:12;" width="1%"> /</td>
+			               <td style="text-align:right;font-size:12;" width="3%"><span class="topage"/></td>
+			           </tr> 
+			       </table>${_debug or ''|n} </body>
+			</html>]]>
+			            </field>
+			            <field eval="15.0" name="margin_top"/>
+			            <field eval="5.0" name="margin_bottom"/>
+			            <field name="css"><![CDATA[
+			
+			body, table, td, span, div {
+			    font-family:Verdana;
+			}
+			
+			body {
+			font-family:Arial;
+			font-size:12;
+		
+			}
+			
+			
+			.header {
+				margin-left:0;
+				text-align:left;
+				width:300px;
+			    font-size:12;
+			}
+			.title {
+			font-size:16;
+			font-weight: bold;
+			
+			}
+			
+			
+			.basic_table{
+			text-align:center;
+			width:100%;
+			border:1px solid lightGrey;
+			border-collapse: collapse;
+			padding-top:20px;
+			}
+			.basic_table td {
+			border:1px solid lightGrey;
+			font-size:11px;
+			padding-top:3px;
+			padding-left:3px;
+			padding-bottom:3px;
+			padding-right:3px;
+			}
+			 
+			.list_table {
+			border-color:black;
+			width:100%;
+			text-align:left;
+			border-collapse: collapse;
+			padding-top:20px;
+			}
+			.list_table td {
+			border-color:gray;
+			border-bottom:1px solid lightGrey;
+			font-size:11px;
+			padding-left:3px;
+			padding-right:3px;
+			padding-top:3px;
+			padding-bottom:3px;
+			}
+			
+			.list_table th {
+			border-bottom:1px solid black;
+			text-align:left;
+			font-size:11px;
+			font-weight:bold;
+			padding-left:3px;
+			padding-right:3px;
+			}
+			
+			.list_tabe thead {
+			    display:table-header-group;
+			}
+			
+			
+			.total {
+			width:100%;
+			}
+			.lib {
+			width:10.3%;
+			}
+			.tot {
+			text-align:left;
+			width:15%;
+			}
+			.righttot {
+			width:74%;
+			}
+			.tax {
+			width:50%;
+			} 
+			
+			.cell{
+			    border-spacing: 0;
+			    border-collapse: collapse;
+			    border-style:solid;
+			    border: 1px solid grey;
+			    font-size:10px;
+			    text-align:center;
+			}
+			
+			.tbl_header{
+			    width:100%;
+			    font-size:10px;
+			}
+			.tr_bottom_line{
+			    border-bottom: thin solid black;
+			    width:100%;
+			}
+			.tr_bottom_line_dark_grey{
+			    border-bottom: thin solid grey;
+			    width:100%;
+			}
+			.tr_bottom_line_light_grey{
+			    border-bottom: thin solid #CCCCCC;
+			    width:100%;
+			}
+			.td_f12{
+			    font-size:12px;
+			}
+			.td_f10{
+			    font-size:10px;
+			}
+			.td_f10_right{ 
+			    font-size:10px;
+			    text-align:right;
+			}
+			.td_f12{
+			    font-size:12px;
+			}
+			.td_f12_right{
+			    font-size:12px;
+			    text-align:right;
+			}
+			table.head_border_style{
+					    	border:1px solid; 
+					    	color: #cccccc;
+			}
+			tr.head_border_style{
+			   	border:1px solid; 
+			   	color: #cccccc;
+			}
+			tr.table_header{
+				font-weight: bold;
+				font-family: sans-serif, serif;
+				font-size: 14px;
+				caption-side: top;
+				padding: 5px;
+			}
+			tr.table_parent_data{
+				font-family: Helvetica-Bold;
+				font-size: 12px;
+				caption-side: top;
+				font-weight: bold;
+			}
+			tr.table_child_data{
+				font-family: Helvetica;
+				font-size: 12px;
+				caption-side: top;
+			}
+			tr.report_header{
+				font-size: 30px;
+				caption-side: top;
+				font-family: Helvetica-Bold
+				padding: 5px;
+				border-bottom: 15px solid black;
+				align: center
+			}
+			 
+			.top{
+				    border-top:1px solid black;
+				    font-size:11px;
+			        padding-top:0px;
+			}
+			.bottom {
+				    border-bottom:thin solid;
+				    border-color:#cccccc;
+			}
+			.head_bottom_border{
+				    border-bottom:thin solid;
+				    border-color:black;
+			}
+			.left {
+			    border-left:thin solid;
+			    border-color:#cccccc;
+			}
+			.right {
+			    border-right:thin solid;
+			    border-color:#cccccc;account_wbkit
+			}
+						
+			]]>
+            </field>
+            <field name="name">Account Statement Webkit Header</field>
+        </record>
+ 
+        <report
+            id="pos_users_product_re"
+            string="User's Product"
+            model="account.bank.statement"
+            name="pos.user.product.webkit"
+            auto="False"
+            multi="True"
+            file="point_of_sale_webkit/report/pos_users_product.mako"
+        	report_type="webkit"
+        	webkit_header="account_statement_webkit_header"
+             />
+
+        <report
+            id="account_statement"
+            string="Statement"
+            model="account.bank.statement"
+            name="account.statement.webkit"
+            auto="False"
+            multi="True"
+            file="point_of_sale_webkit/report/account_statement.mako"
+        	report_type="webkit"
+        	webkit_header="account_statement_webkit_header" />
+
+
+        <report
+            id="all_closed_cashbox_of_the_day"
+            string="All Closed CashBox"
+            model="account.bank.statement"
+            name="all.closed.cashbox.of.the.day.webkit"
+            auto="False"
+            multi="True" 
+            menu = 'True'
+            file="point_of_sale_webkit/report/all_closed_cashbox_of_the_day.mako"
+        	report_type="webkit"
+        	webkit_header="account_statement_webkit_header"
+             />
+
+
+    </data>
+</openerp>

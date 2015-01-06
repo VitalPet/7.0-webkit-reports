@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record id="bilan_header" model="ir.header_webkit">
+            <field name="footer_html"><![CDATA[ ]]></field>
+			            <field name="orientation">Portrait</field>
+			            <field name="format">A4</field>
+			            <field name="html"><![CDATA[ ]]>
+			            </field>
+			           	<field eval="15.0" name="margin_right"/>
+			            <field eval="15.0" name="margin_left"/>
+			            <field name="css"><![CDATA[
+			            	body {
+									font-family:Times New Roman;
+									font-size:11px;
+									}
+			            	
+			            	.main {
+			            		background-color:#E6E6E6;
+			            		width:100%;
+			            		font-size:11px;
+			            		border:1px solid white;
+			            		padding-bottom:0px;
+			            	}
+			            	.main td{
+			            
+			            		padding-top:3px;
+			            		padding-bottom:3px;
+			            		padding-right:3px;
+			            		padding-left:3px;
+			            }
+			            	.table {
+			            		padding-top:0px;
+			            		border:1px solid black;
+			            		width:100%;
+			            		font-size:9px;	
+			            		border-collapse: collapse;
+			            		padding-bottom:0px;
+			            }
+			            	.table td{
+			            	border:1px solid black;
+			            	padding-left:5px;
+			            	padding-top:3px;
+			            	padding-bottom:3px;
+			            	padding-right:3px;
+			            }
+			            	]]>
+			            </field>
+			            <field name="name">Bilan Header</field>
+		</record>
+   
+		<report 
+            id="bilan_report"
+            string="Bilan Report"
+            model="account.move.line"
+            name="l10n.fr.bilan.webkit"
+            file="l10n_fr_webkit/report/bilan_report.mako"
+            auto="False"
+			menu="False"
+        	report_type="webkit" 
+			webkit_header="bilan_header"
+            />
+		
+		<report 
+            id="compute_resultant" 
+            string="Compute Resultant Report" 
+            model="account.move.line"
+            name="l10n.fr.compute_resultant.webkit"
+            file="l10n_fr_webkit/report/compute_resultant_report.mako"
+            auto="False"
+			menu="False" 
+        	report_type="webkit" 
+			webkit_header="bilan_header"
+            />
+	</data>
+</openerp>

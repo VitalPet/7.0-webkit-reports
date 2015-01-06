@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+            <record id="account_bank_statement_webkit_header" model="ir.header_webkit">
+            <field name="footer_html"><![CDATA[]]></field>
+            <field name="orientation">Portrait</field>
+            <field name="format">A4</field>
+            <field name="html"><![CDATA[
+			<html>
+			   <head>
+			       <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			       <script>
+			           function subst() {
+			           var vars={};
+			           var x=document.location.search.substring(1).split('&');
+			           for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			           var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			           for(var i in x) {
+			           var y = document.getElementsByClassName(x[i]);
+			           for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			               }
+			           }
+			       </script>
+			       <style type="text/css">
+			       
+			           ${css}
+			       </style>
+			   </head>
+			   <body style="border:0; margin: 0;" onload="subst()">
+			       <table class="header" style="border-bottom: 1px solid black; width: 100%">
+			           <tr >
+			               <td style="text-align:right;font-size:12;" width="15%">${time.strftime('%m/%d/%Y %I:%M')}</td>
+			               <td style="text-align:center;font-size:16;" width="78%">${company.partner_id.name |entity}</td>
+			               <td style="text-align:left;font-size:12;" width="3%"><span class="page"/>  </td>
+			               <td style="text-align:left;font-size:12;" width="1%"> /</td>
+			               <td style="text-align:right;font-size:12;" width="3%"><span class="topage"/></td>
+			           </tr>
+			       </table> ${_debug or ''|n} </body>
+			</html>]]>
+			            </field>
+			            <field eval="15.0" name="margin_top"/>
+			            <field eval="5.0" name="margin_bottom"/>
+			            <field name="css"><![CDATA[
+			
+			body, table, td, span, div {
+			    font-family: Helvetica, Arial;
+			}
+			
+			body {
+			font-family:Arial;
+			font-size:12px;
+		
+			}		            		
+		   
+			.tr_bottom_line_dark_grey{
+			    border-bottom: thin solid grey;
+			    width:100%;
+			    font-size:12px;
+			   
+			}
+			.tr_bottom_line_dark_black{
+			    border-bottom: thin solid black;
+			    width:100%;
+			    font-size:12px;
+			    font-weight:bold;
+			}  
+			tr.report_header{
+				
+				caption-side: top;
+				font-family: Helvetica-Bold
+				padding: 5px;
+				border-bottom: 15px solid black;
+				align: center;			 
+			} 
+		    
+		 
+			.header {
+				margin-left:0;
+				text-align:left;
+				width:300px;
+			    font-size:12;
+			}
+			.title {
+			font-size:16;
+			font-weight: bold;
+			
+			}	
+			
+			.list_table {
+			border-bottom:black;
+			text-align:center;
+			border-collapse: collapse;
+			
+			}	
+						
+			]]>
+            </field>
+            <field name="name">Account Bank Statment Webkit Header</field>
+        </record>
+ 
+    <report
+        auto="False"
+        id="bank_statement_balance_report"
+        model="account.bank.statement"
+        name="bank.statement.balance.report.webkit"
+        file="account_bank_statement_extensions_webkit/report/bank_statement_balance_report.mako"
+        report_type="webkit" 
+	    webkit_header="account_bank_statement_webkit_header"
+        string="Bank Statement Balances Report"
+        multi="True"/>
+
+  </data>
+</openerp>

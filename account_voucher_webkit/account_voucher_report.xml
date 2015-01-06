@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        	<record id="voucher_header" model="ir.header_webkit">
+            <field name="footer_html"><![CDATA[
+			<html>
+			   <head>
+			       <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			       <script>
+			           function subst() {
+			           var vars={};
+			           var x=document.location.search.substring(1).split('&');
+			           for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			           var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			           for(var i in x) {
+			           var y = document.getElementsByClassName(x[i]);
+			           for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			               }
+			           }
+			       </script>
+			       <style type="text/css">
+			       
+			           ${css}
+			       </style>
+			   </head>
+			   <body style="border:0; margin: 0;" onload="subst()">
+			       <table class="header" style="border-top: 1px solid black; width: 100%">
+			           <tr >
+			               <td style="text-align:center;font-size:12;" >${ company.rml_footer }</td>
+			           </tr>
+			           <tr >
+			               <td style="text-align:center;font-size:12;" >Contact : ${ user.name }</td>
+			           </tr>
+			       </table> ${_debug or ''|n} </body>
+			</html>
+			            ]]></field>
+			            <field name="orientation">Portrait</field>
+			            <field name="format">A4</field>
+			            <field name="html"><![CDATA[
+			<html>
+			   <head>
+			       <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+			       <script>
+			           function subst() {
+			           var vars={};
+			           var x=document.location.search.substring(1).split('&');
+			           for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+			           var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+			           for(var i in x) {
+			           var y = document.getElementsByClassName(x[i]);
+			           for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+			               }
+			           }
+			       </script>
+			       <style type="text/css">
+			       
+			           ${css}
+			       </style>
+			   </head>
+			   <body style="border:0; margin: 0;" onload="subst()">
+			       
+			</html>]]>
+			            </field>
+			            <field eval="17.0" name="margin_top"/>
+			            <field eval="25.0" name="margin_bottom"/>
+			            <field name="css"><![CDATA[
+			
+			body, table, td, span, div {
+			    font-family: Helvetica;
+			}
+			 
+			body {
+			
+			font-size:9;
+			
+			}
+			
+			
+			.header {
+			    margin-left:0;
+			    text-align:left;
+			    width:300px;
+			    font-size:12;
+			}
+			.title {
+			font-size:16px;
+			width:100%;
+			font-weight: bold;
+			font-family: Helvetica;
+			text-align:center; 
+			padding-bottom:20px;
+			}
+			
+			.tbl_header{
+			    width:100%;
+			    font-size:12px; 
+			   	font-family: Helvetica;			   
+			}
+			.tbl_grey_line {
+			     width:100%;
+				border:1px solid Grey;
+				border-collapse: collapse;
+				font-family: Helvetica;
+				padding-bottom:20px;
+			            }
+			.tbl_grey_line td{
+					border:1px solid Grey;
+					font-size:11px;
+					font-family: Helvetica;	
+			            			            }
+			.tbl_line{
+			     width:100%;
+			     font-size:12px; 
+			   	 font-family: Helvetica;
+			     font-weight: bold; 
+			     border:1px solid grey; 
+			     border-left:0px;
+			     border-right:0px;      
+			            }
+			
+			.font{
+			            width:100%;
+			    font-size:12px;
+			   	font-family:Helvetica;	
+			            }
+			.font tr{
+			            padding-top:10px;
+			            }
+			.font td{
+			            padding-top:5px;
+			            }
+			]]>
+			            </field>
+			            <field name="name">Voucher Header</field>
+		</record>
+
+        <report id="report_account_voucher"
+            string="Voucher"
+            model="account.voucher"
+            name="voucher.cash_receipt.drcr.webkit"
+            file="account_voucher_webkit/report/account_voucher.mako"
+            auto="False"
+        	report_type="webkit"
+         	webkit_header="voucher_header"
+            menu="True"/> 
+
+<!-- This report is awfull so it's better to hide it -->
+
+       <report id="report_account_voucher_print" 
+            string="Voucher Print"
+            model="account.voucher"
+            name="voucher.print.webkit"
+            file="account_voucher_webkit/report/account_voucher_print.mako"
+            auto="False"
+            menu="True"
+       		report_type="webkit"
+         	webkit_header="voucher_header"/>
+    </data>
+</openerp>

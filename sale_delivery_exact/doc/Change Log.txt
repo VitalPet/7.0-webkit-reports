@@ -1,0 +1,6 @@
+===============================================================================
+ Version Change Log (sale_delivery_exact)
+===============================================================================
+Version 1.0 on Aug 28, 2013 by Serpent Consulting Services Pvt. Ltd.
+	* Introduced the module
+
